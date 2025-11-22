@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import type { User, LoginCredentials } from '../types/user.types';
 import { toast } from 'react-toastify';
-interface AuthContextType {
+type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -16,7 +16,7 @@ interface AuthContextType {
 }
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-interface AuthProviderProps {
+type AuthProviderProps = {
   children: ReactNode;
 }
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {

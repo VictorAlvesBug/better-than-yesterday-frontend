@@ -1,15 +1,15 @@
-export interface PlanParticipant {
+export type PlanParticipant = {
     planId: string;
     userId: string;
     checkIns: number;
     isBlocked?: boolean;
     joinedAt?: string;
 }
-export interface AddParticipantData {
+export type AddParticipantData = {
     planId: string;
     userId: string;
 }
-export interface ParticipantAction {
+export type ParticipantAction = {
     planId: string;
     userId: string;
 }

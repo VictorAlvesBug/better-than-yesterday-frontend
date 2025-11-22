@@ -1,4 +1,4 @@
-export interface CheckIn {
+export type CheckIn = {
     checkInId: string;
     planId: string;
     habitId: string;
@@ -7,19 +7,19 @@ export interface CheckIn {
     notes?: string;
     createdAt?: string;
 }
-export interface CreateCheckInData {
+export type CreateCheckInData = {
     planId: string;
     habitId: string;
     userId: string;
     date: string; // ISO 8601 format
     notes?: string;
 }
-export interface UpdateCheckInData {
+export type UpdateCheckInData = {
     checkInId: string;
     date: string;
     notes?: string;
 }
-export interface CheckInFilters {
+export type CheckInFilters = {
     planId?: string;
     habitId?: string;
     userId?: string;

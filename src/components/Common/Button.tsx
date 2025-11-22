@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   const variantClasses = {
     primary: 'bg-primary hover:bg-primaryHover text-white',
     secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800',
-    danger: 'bg-error hover:bg-red-600 text-white',
+    danger: 'bg-danger text-white',
     success: 'bg-success hover:bg-green-600 text-white',
   };
   const sizeClasses = {
@@ -41,7 +41,7 @@ const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <span>
           <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+            className="w-4 h-4 mr-2 -ml-1 text-white animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"

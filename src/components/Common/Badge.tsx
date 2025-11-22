@@ -1,6 +1,6 @@
 import React from 'react';
 import type { PlanStatus } from '../../types/plan.types';
-interface BadgeProps {
+type BadgeProps = {
   status: PlanStatus;
   children?: React.ReactNode;
 }

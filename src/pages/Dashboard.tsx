@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
     </div>
   );
 };
-interface StatCardProps {
+type StatCardProps = {
   icon: string;
   label: string;
   value: number;

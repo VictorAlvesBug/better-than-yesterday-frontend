@@ -1,14 +1,18 @@
-export interface Habit {
+export type Habit = {
     habitId: string;
     name: string;
-    description: string;
     createdAt?: string;
 }
-export interface CreateHabitData {
+
+export type HabitWithPlansCount = Habit & {
+    plansCount: number;
+}
+
+export type CreateHabitData = {
     name: string;
     description: string;
 }
-export interface UpdateHabitData {
+export type UpdateHabitData = {
     habitId: string;
     name: string;
     description: string;

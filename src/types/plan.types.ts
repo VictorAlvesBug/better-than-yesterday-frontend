@@ -1,5 +1,6 @@
 export type PlanStatus = 'active' | 'paused' | 'completed' | 'cancelled';
-export interface Plan {
+
+export type Plan = {
     planId: string;
     name: string;
     description: string;
@@ -8,12 +9,12 @@ export interface Plan {
     createdAt?: string;
     updatedAt?: string;
 }
-export interface CreatePlanData {
+export type CreatePlanData = {
     name: string;
     description: string;
     habitId: string;
 }
-export interface UpdatePlanStatusData {
+export type UpdatePlanStatusData = {
     planId: string;
     status: PlanStatus;
 }

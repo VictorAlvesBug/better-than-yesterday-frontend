@@ -1,0 +1,1 @@
+export type Page = 'Dashboard' | 'Plans' | 'Habits' | 'Checkins' | 'Users';

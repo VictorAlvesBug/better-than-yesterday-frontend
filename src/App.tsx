@@ -4,6 +4,7 @@ import { AuthProvider } from './store/authProvider';
 import AppRoutes from './routes/AppRoutes';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+
 function App() {
   return (
     <BrowserRouter>

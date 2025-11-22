@@ -3,12 +3,13 @@ import type { ApiResponse } from '../../types/api.types';
 import type {
     Habit,
     CreateHabitData,
-    UpdateHabitData
+    UpdateHabitData,
+    HabitWithPlansCount
 } from '../../types/habit.types';
 export const habitApi = {
     // Get all habits
-    getAllHabits: async (): Promise<Habit[]> => {
-        const response = await axiosInstance.get<ApiResponse<Habit[]>>('/habits')
+    getAllHabits: async (): Promise<HabitWithPlansCount[]> => {
+        const response = await axiosInstance.get<ApiResponse<HabitWithPlansCount[]>>('/habits')
         return response.data.data || [];
     },
     // Get habit by ID

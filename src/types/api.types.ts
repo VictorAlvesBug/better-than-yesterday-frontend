@@ -1,9 +1,9 @@
-export interface ApiResponse<T> {
+export type ApiResponse<T> = {
     isSuccess: boolean;
     data?: T;
     errors?: string[];
 }
-export interface PaginatedResponse<T> {
+export type PaginatedResponse<T> = {
     items: T[];
     totalCount: number;
     pageNumber: number;
