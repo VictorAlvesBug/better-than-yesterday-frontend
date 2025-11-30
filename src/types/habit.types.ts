@@ -10,10 +10,8 @@ export type HabitWithPlansCount = Habit & {
 
 export type CreateHabitData = {
     name: string;
-    description: string;
 }
 export type UpdateHabitData = {
     habitId: string;
     name: string;
-    description: string;
 }

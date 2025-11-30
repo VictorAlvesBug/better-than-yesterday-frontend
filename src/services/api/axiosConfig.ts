@@ -38,34 +38,38 @@ axiosInstance.interceptors.response.use(
         // Global error handling
         if (error.response) {
             const { status, data } = error.response;
+            let defaultMessage = '';
             switch (status) {
                 case 400:
-                    toast.error('Requisição inválida. Verifique os dados enviados.');
+                    defaultMessage = 'Requisição inválida. Verifique os dados enviados.';
                     break;
                 case 401:
-                    toast.error('Não autorizado. Faça login novamente.');
+                    defaultMessage = 'Não autorizado. Faça login novamente.';
                     // Redirect to login
                     localStorage.removeItem('authToken');
                     window.location.href = '/login';
                     break;
                 case 403:
-                    toast.error('Acesso negado.');
+                    defaultMessage = 'Acesso negado.';
                     break;
                 case 404:
-                    toast.error('Recurso não encontrado.');
+                    defaultMessage = 'Recurso não encontrado.';
                     break;
                 case 500:
-                    toast.error('Erro no servidor. Tente novamente mais tarde.');
+                    defaultMessage = 'Erro no servidor. Tente novamente mais tarde.';
                     break;
                 default:
-                    toast.error('Erro ao processar requisição.');
+                    defaultMessage = 'Erro ao processar requisição.';
             }
             // Extract error messages from API response
-            if (data && typeof data === 'object' && 'errors' in data) {
-                const apiData = data as { errors?: string[] };
+            if (data && typeof data === 'object' && 'reason' in data) {
+                const apiData = data as { reason?: string[] };
+                toast.error(apiData.reason || defaultMessage)
+
+                /*const apiData = data as { errors?: string[] };
                 if (apiData.errors && Array.isArray(apiData.errors)) {
                     apiData.errors.forEach((err: string) => toast.error(err));
-                }
+                }*/
             }
         } else if (error.request) {
             // Network error
