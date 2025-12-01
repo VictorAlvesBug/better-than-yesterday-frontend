@@ -15,3 +15,8 @@ export type UpdateHabitData = {
     habitId: string;
     name: string;
 }
+
+export type SaveHabitData = {
+    habitId: string;
+    name: string;
+}

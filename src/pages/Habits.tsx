@@ -5,102 +5,26 @@ import type { HabitWithPlansCount } from '../types/habit.types';
 import { habitApi } from '../services/api/habitApi';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCrosshairs, faTasks } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCrosshairs,
+  faEdit,
+  faTasks,
+} from '@fortawesome/free-solid-svg-icons';
 import { ModalConfirm } from '../components/Common/ModalConfirm';
 import { isSuccess } from '../types/api.types';
-import CreateHabitModal from '../components/Habits/CreateHabitModal';
+import SaveHabitModal from '../components/Habits/SaveHabitModal';
 import useBooleanState from '../hooks/useBooleanState';
 import FontAwesomeIconWithTooltip from '../components/Common/FontAwesomeIconWithTooltip';
-
-type Action =
-  | { type: 'SET_HABITS'; payload: HabitWithPlansCount[] }
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'OPEN_DELETE_MODAL'; payload: { onSubmit: () => Promise<void> } }
-  | { type: 'CLOSE_DELETE_MODAL' }
-  | { type: 'OPEN_CREATE_MODAL'; payload: { onSubmit: () => Promise<void> } }
-  | { type: 'SUBMIT_CREATE_MODAL'; payload: { habitName: string } }
-  | { type: 'CLOSE_CREATE_MODAL' };
-
-type State = {
-  habits: HabitWithPlansCount[];
-  isLoading: boolean;
-  deleteModal: {
-    isOpen: boolean;
-    onConfirm: () => Promise<void>;
-  };
-  createModal: {
-    isOpen: boolean;
-    habitName: string;
-    onConfirm: () => Promise<void>;
-  };
-};
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'SET_HABITS':
-      return { ...state, habits: action.payload };
-    case 'SET_LOADING':
-      return { ...state, isLoading: action.payload };
-    case 'OPEN_DELETE_MODAL':
-      return {
-        ...state,
-        deleteModal: { isOpen: true, onConfirm: action.payload.onSubmit },
-      };
-    case 'CLOSE_DELETE_MODAL':
-      return {
-        ...state,
-        deleteModal: { isOpen: false, onConfirm: async () => {} },
-      };
-    case 'OPEN_CREATE_MODAL':
-      return {
-        ...state,
-        createModal: {
-          isOpen: true,
-          habitName: '',
-          onConfirm: action.payload.onSubmit,
-        },
-      };
-    case 'SUBMIT_CREATE_MODAL':
-      return {
-        ...state,
-        createModal: {
-          ...state.createModal,
-          habitName: action.payload.habitName,
-        },
-      };
-    case 'CLOSE_CREATE_MODAL':
-      return {
-        ...state,
-        createModal: {
-          isOpen: false,
-          habitName: '',
-          onConfirm: async () => {},
-        },
-      };
-    default:
-      return state;
-  }
-}
+import { useSaveHabitModal } from '../hooks/useSaveHabitModal';
 
 const Habits: React.FC = () => {
-  const initialState: State = {
-    habits: [],
-    isLoading: false,
-    deleteModal: {
-      isOpen: false,
-      onConfirm: async () => {},
-    },
-    createModal: {
-      isOpen: false,
-      habitName: '',
-      onConfirm: async () => {},
-    },
-  };
-
-  //const [state, dispatch] = useReducer(reducer, initialState);
   const loading = useBooleanState(false);
   const [habits, setHabits] = useState<HabitWithPlansCount[]>([]);
-  const createHabitModalOpen = useBooleanState(false);
+
+  const saveHabitModalManager = useSaveHabitModal(
+    () => fetchHabits(),
+  );
+
   const confirmHabitDeletionModalOpen = useBooleanState(false);
   const [habitToDelete, setHabitToDelete] =
     useState<HabitWithPlansCount | null>(null);
@@ -150,7 +74,7 @@ const Habits: React.FC = () => {
         <h1 className="mb-4 text-2xl font-bold text-title">Hábitos</h1>
         <Button
           className="text-info-contrast"
-          onClick={() => createHabitModalOpen.set()}
+          onClick={() => saveHabitModalManager.openCreateModal()}
         >
           Criar Novo Hábito
         </Button>
@@ -172,13 +96,18 @@ const Habits: React.FC = () => {
                   {habit.name}
                 </h2>
               </div>
-              <p className="text-info">
+              <p className="flex flex-row gap-2 text-info">
+                <FontAwesomeIconWithTooltip
+                  icon={faEdit}
+                  tooltip={'Editar'}
+                  onClick={() => saveHabitModalManager.openUpdateModal(habit)}
+                />
                 <FontAwesomeIconWithTooltip
                   icon={faTasks}
                   tooltip={`${habit.plansCount} ${
                     habit.plansCount === 1 ? 'plano ativo' : 'planos ativos'
                   }`}
-                  onClick={() => toast.info("Funcionalidade em construção...")}
+                  onClick={() => toast.info('Funcionalidade em construção...')}
                 />
               </p>
               <Button
@@ -206,11 +135,7 @@ const Habits: React.FC = () => {
           </>
         }
       />
-      <CreateHabitModal
-        isOpen={createHabitModalOpen.isEnabled}
-        onClose={createHabitModalOpen.reset}
-        onSuccess={() => fetchHabits()}
-      />
+      <SaveHabitModal modal={saveHabitModalManager} />
     </div>
   );
 };
