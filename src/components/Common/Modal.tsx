@@ -4,7 +4,10 @@ import Button, { type ButtonVariant } from './Button';
 
 type ButtonConfig = {
   text: string;
+  loadingText?: string;
   variant?: ButtonVariant;
+  disabled?: boolean;
+  isLoading?: boolean;
   onClick: () => void;
 };
 
@@ -46,11 +49,19 @@ export const Modal = ({
         {content}
 
         <div className="flex flex-row items-center justify-end gap-2 px-2 py-3">
-          {buttons.map(({ text, ...rest }) => (
-            <Button key={text} {...rest}>
-              {text}
-            </Button>
-          ))}
+          {buttons.map(
+            ({
+              text,
+              loadingText = 'Carregando...',
+              isLoading = false,
+              disabled,
+              ...rest
+            }) => (
+              <Button key={text} disabled={disabled} {...rest}>
+                {isLoading ? loadingText : text}
+              </Button>
+            )
+          )}
         </div>
       </div>
     </div>

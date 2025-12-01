@@ -135,7 +135,7 @@ const Habits: React.FC = () => {
           </>
         }
       />
-      <SaveHabitModal modal={saveHabitModalManager} />
+      <SaveHabitModal manager={saveHabitModalManager} />
     </div>
   );
 };
